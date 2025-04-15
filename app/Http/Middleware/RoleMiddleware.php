@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class RoleMiddleware
 {
@@ -20,12 +20,14 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, string $role): Response
     {
         // Verificar si el usuario está autenticado
-        if (!Auth::check()) {
+        if (!\Illuminate\Support\Facades\Auth::check()) {
             return redirect()->route('login');
         }
 
-        $user = Auth::user();
-        
+        // Obtener el usuario autenticado con tipado explícito
+        /** @var User $user */
+        $user = \Illuminate\Support\Facades\Auth::user();
+
         // Verificar si el usuario tiene el rol especificado
         if ($user->hasRole($role)) {
             return $next($request);
