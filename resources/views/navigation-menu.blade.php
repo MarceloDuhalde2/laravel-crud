@@ -9,12 +9,22 @@
                         <x-application-mark class="block h-9 w-auto" />
                     </a>
                 </div>
-
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if (auth()->check() && auth()->user()->hasRole('admin'))
+                        <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                            {{ __('Usuarios') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.index')">
+                            {{ __('Roles') }}
+                        </x-nav-link>
+                        <x-nav-link href="{{ route('permissions.index') }}" :active="request()->routeIs('permissions.index')">
+                            {{ __('Permisos') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -142,8 +152,19 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-        </div>
 
+            @if (auth()->check() && auth()->user()->hasRole('admin'))
+                <x-responsive-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
+                    {{ __('Usuarios') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('roles.index') }}" :active="request()->routeIs('roles.index')">
+                    {{ __('Roles') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('permissions.index') }}" :active="request()->routeIs('permissions.index')">
+                    {{ __('Permisos') }}
+                </x-responsive-nav-link>
+            @endif
+        </div>    
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
